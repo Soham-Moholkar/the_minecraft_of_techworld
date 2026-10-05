@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
   "generated_at": "2026-10-04T14:33:41.231Z",
-  "revision": "working-tree",
+  "revision": "8c76cca9692437b232adcf57893348e68f165ac1",
   "profile": "platform",
   "summary": {
     "total": 31,
-    "passed": 25,
+    "passed": 0,
     "failed": 0,
-    "not_run": 6
+    "not_run": 31
   },
   "gates": [
     {
@@ -15,60 +15,66 @@
       "name": "Registry and progression consistency",
       "command": "\".venv/Scripts/python.exe\" scripts/audit_consistency.py",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 1021,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:20:04.685Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:20:04.685Z",
+      "checked_at": null
     },
     {
       "id": "agent-security-boundaries",
       "name": "Agent memory and approvals",
       "command": "\".venv/Scripts/python.exe\" labs/security/agent-boundaries/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 4208,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:20:08.897Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:20:08.897Z",
+      "checked_at": null
     },
     {
       "id": "deployment-native-render",
       "name": "Native Helm deployment policy (cluster unverified)",
       "command": "\".venv/Scripts/python.exe\" scripts/verify_deployment.py",
       "scope": "platform",
-      "status": "passed",
-      "duration_ms": 2847,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:20:11.745Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:20:11.745Z",
+      "checked_at": null
     },
     {
       "id": "infrastructure-local-plan",
       "name": "Native OpenTofu local metadata lifecycle",
       "command": "\".venv/Scripts/python.exe\" scripts/verify_infrastructure_plan.py",
       "scope": "platform",
-      "status": "passed",
-      "duration_ms": 3416,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:20:15.161Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:20:15.161Z",
+      "checked_at": null
     },
     {
       "id": "usage-streaming-lakehouse",
       "name": "Usage streaming / Parquet / Iceberg",
       "command": "\".venv/Scripts/python.exe\" scripts/verify_streaming.py",
       "scope": "data-engineering",
-      "status": "passed",
-      "duration_ms": 8309,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:20:23.470Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:20:23.470Z",
+      "checked_at": null
     },
     {
       "id": "usage-spark-local",
       "name": "Actual local Spark Parquet rollup",
       "command": "\".venv/Scripts/python.exe\" scripts/verify_usage_spark.py",
       "scope": "data-engineering",
-      "status": "passed",
-      "duration_ms": 60035,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:21:23.506Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:21:23.506Z",
+      "checked_at": null
     },
     {
       "id": "live-kafka",
@@ -77,7 +83,8 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "airflow-dag-parse",
@@ -86,137 +93,151 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "durable-event-pipeline",
       "name": "Durable usage pipeline recovery",
       "command": "\".venv/Scripts/python.exe\" labs/data-engineering/event-pipeline/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 1420,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:21:24.926Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:21:24.926Z",
+      "checked_at": null
     },
     {
       "id": "web-lint",
       "name": "Frontend lint",
       "command": "pnpm --filter @atlas/web lint --max-warnings=0",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 50204,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:22:15.131Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:22:15.131Z",
+      "checked_at": null
     },
     {
       "id": "web-types",
       "name": "TypeScript strict",
       "command": "pnpm --filter @atlas/web typecheck",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 19341,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:22:34.474Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:22:34.474Z",
+      "checked_at": null
     },
     {
       "id": "web-unit",
       "name": "Frontend unit",
       "command": "pnpm --filter @atlas/web test",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 68731,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:23:43.206Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:23:43.206Z",
+      "checked_at": null
     },
     {
       "id": "web-build",
       "name": "Production build",
       "command": "pnpm --filter @atlas/web build",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 88888,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:25:12.095Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:25:12.095Z",
+      "checked_at": null
     },
     {
       "id": "api-lint",
       "name": "Python lint",
       "command": "\".venv/Scripts/python.exe\" -m ruff check apps/api-python",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 764,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:25:12.859Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:25:12.859Z",
+      "checked_at": null
     },
     {
       "id": "api-types",
       "name": "Python strict typing",
       "command": "\".venv/Scripts/python.exe\" -m mypy apps/api-python/src",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 41219,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:25:54.078Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:25:54.078Z",
+      "checked_at": null
     },
     {
       "id": "api-tests",
       "name": "API integration/security",
       "command": "\".venv/Scripts/python.exe\" -m pytest apps/api-python --cov=atlas_api --cov-fail-under=80",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 344411,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:31:38.488Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:31:38.488Z",
+      "checked_at": null
     },
     {
       "id": "node-types",
       "name": "Node protocol strict typing",
       "command": "pnpm --filter @atlas/api-node typecheck",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 7198,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:31:45.686Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:31:45.686Z",
+      "checked_at": null
     },
     {
       "id": "node-tests",
       "name": "REST/GraphQL/gRPC contract",
       "command": "pnpm --filter @atlas/api-node test",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 11081,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:31:56.768Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:31:56.768Z",
+      "checked_at": null
     },
     {
       "id": "python-mastery",
       "name": "python mastery",
       "command": "\".venv/Scripts/python.exe\" labs/python/python-mastery/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 7677,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:04.445Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:04.445Z",
+      "checked_at": null
     },
     {
       "id": "database-query-plans",
       "name": "database query plans",
       "command": "\".venv/Scripts/python.exe\" labs/databases/query-plans/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 2263,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:06.709Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:06.709Z",
+      "checked_at": null
     },
     {
       "id": "database-isolation-locks",
       "name": "database isolation locks",
       "command": "\".venv/Scripts/python.exe\" labs/databases/isolation-locks/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 1708,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:08.416Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:08.416Z",
+      "checked_at": null
     },
     {
       "id": "database-postgresql-concurrency",
@@ -225,7 +246,8 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "database-mariadb-provider",
@@ -234,7 +256,8 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "database-mongodb-document-model",
@@ -243,7 +266,8 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "database-redis-cache-streams",
@@ -252,67 +276,74 @@
       "scope": "full",
       "status": "not_run",
       "duration_ms": 0,
-      "exit_code": null
+      "exit_code": null,
+      "checked_at": null
     },
     {
       "id": "database-provider-benchmarks",
       "name": "database provider benchmarks",
       "command": "\".venv/Scripts/python.exe\" labs/databases/provider-benchmarks/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 2210,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:10.627Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:10.627Z",
+      "checked_at": null
     },
     {
       "id": "database-security-boundaries",
       "name": "database security boundaries",
       "command": "\".venv/Scripts/python.exe\" labs/security/database-boundaries/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 1060,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:11.687Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:11.687Z",
+      "checked_at": null
     },
     {
       "id": "data-science-quality",
       "name": "data science quality",
       "command": "\".venv/Scripts/python.exe\" labs/data/science-quality/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 9366,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:21.053Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:21.053Z",
+      "checked_at": null
     },
     {
       "id": "machine-learning-evaluation",
       "name": "machine learning evaluation",
       "command": "\".venv/Scripts/python.exe\" labs/ml/model-evaluation/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 9895,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:32:30.948Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:32:30.948Z",
+      "checked_at": null
     },
     {
       "id": "deep-learning-frameworks",
       "name": "deep learning frameworks",
       "command": "\".venv/Scripts/python.exe\" labs/deep-learning/framework-comparison/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 50618,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:33:21.566Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:33:21.566Z",
+      "checked_at": null
     },
     {
       "id": "deep-learning-applied-ai",
       "name": "deep learning applied ai",
       "command": "\".venv/Scripts/python.exe\" labs/deep-learning/applied-ai/run.py verify",
       "scope": "local",
-      "status": "passed",
-      "duration_ms": 19665,
-      "exit_code": 0,
-      "executed_at": "2026-10-04T14:33:41.231Z"
+      "status": "not_run",
+      "duration_ms": 0,
+      "exit_code": null,
+      "executed_at": "2026-10-04T14:33:41.231Z",
+      "checked_at": null
     }
   ]
 }
