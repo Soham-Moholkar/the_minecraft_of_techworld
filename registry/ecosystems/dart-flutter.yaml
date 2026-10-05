@@ -1,8 +1,0 @@
-schema_version: 1
-ecosystem: dart-flutter
-display_name: "Dart / Flutter"
-status: planned
-implemented_categories: []
-missing_categories: [runtime, mobile, web, authn, realtime, testing, object-storage, offline-sync]
-owners: [atlas-platform]
-last_reviewed: "2026-08-27"
