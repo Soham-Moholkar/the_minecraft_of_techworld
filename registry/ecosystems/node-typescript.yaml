@@ -1,8 +1,0 @@
-schema_version: 1
-ecosystem: node-typescript
-display_name: "Node.js / TypeScript"
-status: first_class
-implemented_categories: [runtime, web, validation, rest-api, authn, graphql, grpc, logging, build, testing, linting, static-analysis, deployment]
-missing_categories: [orm, migrations, queues, cache, metrics, tracing, profiling]
-owners: [atlas-platform]
-last_reviewed: "2026-08-27"
