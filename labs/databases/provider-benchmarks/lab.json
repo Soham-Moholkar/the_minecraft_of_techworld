@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../packages/schemas/lab-manifest.schema.json",
+  "id": "database-provider-benchmarks",
+  "title": "Relational, document, and cache read-pattern benchmark",
+  "domain": "databases",
+  "runtime": "process",
+  "difficulty": "advanced",
+  "commands": {
+    "start": "run.py start",
+    "test": "run.py test",
+    "benchmark": "run.py start",
+    "reset": "run.py reset",
+    "verify": "run.py verify"
+  },
+  "resources": { "cpu": "1", "memory": "192Mi" },
+  "safety": { "internet_access_required": false, "vulnerable_target": false },
+  "telemetry": { "logs": true, "metrics": true, "traces": false }
+}

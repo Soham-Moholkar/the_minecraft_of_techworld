@@ -1,0 +1,15 @@
+{
+  "id": "applied-ai",
+  "title": "CNN, sequence, attention, and recommendation compatibility",
+  "domain": "deep-learning",
+  "runtime": "process",
+  "difficulty": "advanced",
+  "commands": {
+    "start": "python labs/deep-learning/applied-ai/run.py start",
+    "test": "python labs/deep-learning/applied-ai/run.py test",
+    "reset": "python labs/deep-learning/applied-ai/run.py reset"
+  },
+  "safety": {"internet_access_required": false, "vulnerable_target": false},
+  "resources": {"cpu": "1", "memory": "1Gi"},
+  "telemetry": {"logs": true, "metrics": true, "traces": false}
+}

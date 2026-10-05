@@ -1,0 +1,9 @@
+schema_version: 1
+databases:
+  - { id: postgresql, status: core, role: transactional-metadata, adapter: SQLAlchemy }
+  - { id: sqlite, status: alternative, role: local-and-test, adapter: SQLAlchemy }
+  - { id: mariadb, status: alternative, role: comparison-and-lab, adapter: SQLAlchemy-PyMySQL }
+  - { id: mongodb, status: alternative, role: derived-project-projection-and-lab, adapter: PyMongo }
+  - { id: redis, status: alternative, role: cache-aside-and-stream-lab, adapter: redis-py }
+  - { id: clickhouse, status: planned, role: analytics, adapter: AnalyticsEngine }
+  - { id: duckdb, status: alternative, role: bounded-operational-analytics, adapter: profile_csv }

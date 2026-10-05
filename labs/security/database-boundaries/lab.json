@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../packages/schemas/lab-manifest.schema.json",
+  "id": "database-security-boundaries",
+  "title": "Database injection, tenant boundary, and least-privilege exercise",
+  "domain": "security",
+  "runtime": "process",
+  "difficulty": "advanced",
+  "commands": {
+    "start": "run.py start",
+    "test": "run.py test",
+    "reset": "run.py reset",
+    "verify": "run.py verify"
+  },
+  "resources": { "cpu": "0.5", "memory": "96Mi" },
+  "safety": { "internet_access_required": false, "vulnerable_target": true },
+  "telemetry": { "logs": true, "metrics": false, "traces": false }
+}

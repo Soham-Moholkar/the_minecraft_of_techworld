@@ -1,0 +1,40 @@
+# Private single-operator profile; REST has powerful controls outside ATLAS's BFF.
+services:
+  api:
+    environment:
+      ATLAS_FLINK_ENABLED: ${ATLAS_FLINK_ENABLED:-false}
+      ATLAS_FLINK_API_URL: http://flink-jobmanager:8081
+      ATLAS_FLINK_JOB_ID: ${ATLAS_FLINK_JOB_ID:-}
+  flink-jobmanager:
+    profiles: [flink]
+    build: &flink-build
+      context: .
+      dockerfile: infra/flink/Dockerfile
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: &flink-properties |
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        parallelism.default: 2
+        jobmanager.memory.process.size: 1024m
+        taskmanager.memory.process.size: 2048m
+      ATLAS_PIPELINE_ENABLED: ${ATLAS_PIPELINE_ENABLED:-false}
+      ATLAS_PIPELINE_API_URL: http://api:8000
+      ATLAS_PIPELINE_API_TOKEN: ${ATLAS_DEV_TOKEN:-atlas-local-development-token}
+      ATLAS_PIPELINE_TENANT: northstar
+    ports: ["127.0.0.1:58081:8081"]
+    cpus: "1.0"
+    mem_limit: 1536m
+    pids_limit: 256
+    security_opt: ["no-new-privileges:true"]
+  flink-taskmanager:
+    profiles: [flink]
+    build: *flink-build
+    command: taskmanager
+    environment:
+      FLINK_PROPERTIES: *flink-properties
+    depends_on: [flink-jobmanager]
+    cpus: "2.0"
+    mem_limit: 3g
+    pids_limit: 512
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,10 @@
+# Local-development ACLs. The default user is disabled so an exposed port never
+# becomes an unauthenticated full-command Redis instance.
+user default off
+
+# Product cache: one key prefix and only the commands needed by cache-aside reads.
+user atlas_cache on resetpass >atlas_cache_dev_only resetkeys ~atlas:cache:* resetchannels -@all +ping +get +set +ttl
+
+# Disposable lab: its own prefix plus explicit cache, stream, optimistic-locking,
+# identity, scan, and cleanup commands. Administrative/destructive commands remain denied.
+user atlas_lab on resetpass >atlas_lab_dev_only resetkeys ~atlas:lab:* resetchannels &atlas:lab:* -@all +ping +acl|whoami +acl|dryrun +type +del +exists +get +set +ttl +pttl +expire +xadd +xlen +xgroup +xreadgroup +xack +xpending +xautoclaim +multi +exec +discard +watch +unwatch +incrby

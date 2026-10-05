@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root { color-scheme: dark; --background: #071018; --foreground: #e8eef4; }
+:root[data-theme="light"] { color-scheme: light; --background: #eef4f7; --foreground: #102331; }
+* { box-sizing: border-box; }
+html { background: var(--background); }
+body { margin: 0; background: radial-gradient(circle at 78% -10%, rgba(34,211,238,.08), transparent 32%), #071018; color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(103,232,249,.24); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #071018; }
+::-webkit-scrollbar-thumb { border: 3px solid #071018; border-radius: 99px; background: #263543; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+:root[data-theme="light"] body { background: radial-gradient(circle at 78% -10%, rgba(8,145,178,.12), transparent 32%), #eef4f7; color: #102331; }
+:root[data-theme="light"] .atlas-shell { background: transparent; color: #102331; }
+:root[data-theme="light"] .atlas-sidebar { background: #f8fbfc; border-color: rgba(15,23,42,.12); }
+:root[data-theme="light"] .atlas-header { background: rgba(238,244,247,.92); border-color: rgba(15,23,42,.12); }
+:root[data-theme="light"] .atlas-shell .bg-slate-950\/55 { background-color: rgba(255,255,255,.78); }
+:root[data-theme="light"] .atlas-shell .text-slate-100 { color: #102331; }
+:root[data-theme="light"] .atlas-shell .text-slate-300 { color: #334155; }
+:root[data-theme="light"] .atlas-shell .text-slate-400 { color: #475569; }
+:root[data-theme="light"] .atlas-shell .text-slate-500 { color: #64748b; }
+:root[data-theme="light"] .atlas-shell [class*="border-white"] { border-color: rgba(15,23,42,.12); }
+:root[data-theme="light"] .atlas-shell [class*="bg-white"] { background-color: rgba(15,23,42,.035); }

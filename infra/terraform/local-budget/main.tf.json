@@ -1,0 +1,30 @@
+{
+  "terraform": {
+    "required_version": "= 1.13.0"
+  },
+  "variable": {
+    "deployment": {
+      "type": "any"
+    }
+  },
+  "resource": {
+    "terraform_data": {
+      "atlas_budget": {
+        "input": "${var.deployment}",
+        "lifecycle": {
+          "precondition": [
+            {
+              "condition": "${var.deployment.namespace == \"atlas-dev\" && var.deployment.budget.replicas == 2 && var.deployment.budget.cpu_limit_millicores <= 2000 && var.deployment.budget.memory_limit_mib <= 1536 && var.deployment.budget.storage_mib <= 1024}",
+              "error_message": "Owned development deployment budget exceeded."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "output": {
+    "planned_budget": {
+      "value": "${terraform_data.atlas_budget.output}"
+    }
+  }
+}

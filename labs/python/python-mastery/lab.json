@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../packages/schemas/lab-manifest.schema.json",
+  "id": "python-mastery",
+  "title": "Python mastery evidence lab",
+  "domain": "python",
+  "runtime": "process",
+  "difficulty": "intermediate",
+  "commands": {
+    "start": "run.py start",
+    "test": "run.py test",
+    "reset": "run.py reset"
+  },
+  "resources": { "cpu": "1", "memory": "256Mi" },
+  "safety": { "internet_access_required": false, "vulnerable_target": false },
+  "telemetry": { "logs": true, "metrics": true, "traces": false }
+}

@@ -1,0 +1,10 @@
+FROM python:3.12.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+RUN addgroup --system --gid 65532 atlas-test \
+    && adduser --system --uid 65532 --ingroup atlas-test --home /tmp atlas-test
+COPY apps/api-python /opt/atlas-api
+RUN pip install --no-cache-dir '/opt/atlas-api[dev]'
+USER 65532:65532
+WORKDIR /workspace/apps/api-python
+CMD ["python", "-m", "pytest", "-q", "--strict-markers"]

@@ -1,0 +1,8 @@
+schema_version: 1
+ecosystem: scala
+display_name: "Scala"
+status: planned
+implemented_categories: []
+missing_categories: [runtime, web, data, queues, testing, build, deployment]
+owners: [atlas-platform]
+last_reviewed: "2026-08-27"

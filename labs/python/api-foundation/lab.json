@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../packages/schemas/lab-manifest.schema.json",
+  "id": "api-foundation",
+  "title": "Control-plane API foundation",
+  "domain": "backend",
+  "runtime": "process",
+  "difficulty": "foundation",
+  "commands": { "start": "run.py start", "test": "run.py test", "reset": "run.py reset" },
+  "resources": { "cpu": "0.25", "memory": "128Mi" },
+  "safety": { "internet_access_required": false, "vulnerable_target": false },
+  "telemetry": { "logs": true, "metrics": false, "traces": false }
+}
+

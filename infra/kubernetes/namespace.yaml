@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: atlas-dev
+  labels:
+    app.kubernetes.io/managed-by: atlas
+    atlas.dev/tenant: northstar
+    pod-security.kubernetes.io/enforce: restricted
+  annotations:
+    helm.sh/resource-policy: keep

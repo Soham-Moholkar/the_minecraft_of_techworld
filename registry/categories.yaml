@@ -1,0 +1,35 @@
+schema_version: 1
+required_ecosystem_categories:
+  - runtime
+  - web
+  - orm
+  - low-level-data-access
+  - migrations
+  - validation
+  - serialization
+  - authn
+  - authz
+  - rest-api
+  - graphql
+  - grpc
+  - realtime
+  - jobs
+  - queues
+  - cache
+  - scheduling
+  - cli
+  - logging
+  - metrics
+  - tracing
+  - testing
+  - security
+  - linting
+  - formatting
+  - static-analysis
+  - packaging
+  - build
+  - deployment
+  - profiling
+  - object-storage
+  - sdk
+

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../packages/schemas/lab-manifest.schema.json",
+  "id": "database-mongodb-document-model",
+  "title": "MongoDB document model, compound index, and atomic update lab",
+  "domain": "databases",
+  "runtime": "compose",
+  "difficulty": "advanced",
+  "commands": { "start": "run.py start", "test": "run.py test", "reset": "run.py reset", "verify": "run.py verify" },
+  "resources": { "cpu": "0.5", "memory": "512Mi" },
+  "safety": { "internet_access_required": false, "vulnerable_target": false },
+  "telemetry": { "logs": true, "metrics": false, "traces": false }
+}

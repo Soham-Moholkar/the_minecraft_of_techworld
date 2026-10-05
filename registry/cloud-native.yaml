@@ -1,0 +1,8 @@
+schema_version: 1
+technologies:
+  - { id: docker, status: core, locations: [apps/api-python/Dockerfile, apps/web/Dockerfile] }
+  - { id: compose, status: core, locations: [compose.yaml] }
+  - { id: kubernetes, status: planned, locations: [] }
+  - { id: helm, status: planned, locations: [] }
+  - { id: opentelemetry, status: planned, locations: [] }
+

@@ -1,0 +1,8 @@
+schema_version: 1
+ecosystem: swift
+display_name: "Swift"
+status: planned
+implemented_categories: []
+missing_categories: [runtime, mobile, web, authn, realtime, testing, object-storage, offline-sync]
+owners: [atlas-platform]
+last_reviewed: "2026-08-27"

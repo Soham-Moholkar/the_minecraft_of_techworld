@@ -1,0 +1,9 @@
+schema_version: 1
+projects:
+  - { id: kafka, status: alternative, category: event-streaming, verification: offline-sdk-only, source: apps/api-python/src/atlas_api/kafka_broker.py }
+  - { id: spark, status: alternative, category: distributed-compute, verification: actual-local-jvm-acceptance, source: infra/spark/usage_job.py }
+  - { id: airflow, status: alternative, category: orchestration, verification: native-task-contracts-only, source: infra/airflow/dags }
+  - { id: flink, status: alternative, category: stream-processing, verification: rest-contracts-only-linux-job-pending, source: infra/flink/usage_job.py }
+  - { id: iceberg, status: first_class, category: lakehouse-table-format, verification: local-catalog-tested, source: apps/api-python/src/atlas_api/usage_lakehouse.py }
+  - { id: arrow-parquet, status: first_class, category: columnar-format, verification: roundtrip-tested, source: apps/api-python/src/atlas_api/streaming_export.py }
+  - { id: superset, status: alternative, category: analytics, verification: native-projection-and-metadata-contracts-only, source: scripts/publish_usage_bi.py }

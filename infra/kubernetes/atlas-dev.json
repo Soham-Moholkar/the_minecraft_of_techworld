@@ -1,0 +1,566 @@
+[
+  {
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+      "annotations": {
+        "helm.sh/resource-policy": "keep"
+      },
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar",
+        "pod-security.kubernetes.io/enforce": "restricted"
+      },
+      "name": "atlas-dev"
+    }
+  },
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "NetworkPolicy",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-deny",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "egress": [],
+      "ingress": [],
+      "podSelector": {},
+      "policyTypes": [
+        "Ingress",
+        "Egress"
+      ]
+    }
+  },
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "NetworkPolicy",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-web-egress",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "egress": [
+        {
+          "ports": [
+            {
+              "port": 53,
+              "protocol": "UDP"
+            },
+            {
+              "port": 53,
+              "protocol": "TCP"
+            }
+          ],
+          "to": [
+            {
+              "namespaceSelector": {
+                "matchLabels": {
+                  "kubernetes.io/metadata.name": "kube-system"
+                }
+              },
+              "podSelector": {
+                "matchLabels": {
+                  "k8s-app": "kube-dns"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ports": [
+            {
+              "port": 8000,
+              "protocol": "TCP"
+            }
+          ],
+          "to": [
+            {
+              "podSelector": {
+                "matchLabels": {
+                  "app.kubernetes.io/name": "atlas-api"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "podSelector": {
+        "matchLabels": {
+          "app.kubernetes.io/name": "atlas-web"
+        }
+      },
+      "policyTypes": [
+        "Egress"
+      ]
+    }
+  },
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "NetworkPolicy",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-api-ingress",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "ingress": [
+        {
+          "from": [
+            {
+              "podSelector": {
+                "matchLabels": {
+                  "app.kubernetes.io/name": "atlas-web"
+                }
+              }
+            }
+          ],
+          "ports": [
+            {
+              "port": 8000,
+              "protocol": "TCP"
+            }
+          ]
+        }
+      ],
+      "podSelector": {
+        "matchLabels": {
+          "app.kubernetes.io/name": "atlas-api"
+        }
+      },
+      "policyTypes": [
+        "Ingress"
+      ]
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "ResourceQuota",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-budget",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "hard": {
+        "limits.cpu": "2",
+        "limits.memory": "2Gi",
+        "persistentvolumeclaims": "1",
+        "pods": "2",
+        "requests.cpu": "1",
+        "requests.memory": "1Gi",
+        "requests.storage": "1Gi",
+        "services": "2"
+      }
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "automountServiceAccountToken": false,
+    "kind": "ServiceAccount",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-runtime",
+      "namespace": "atlas-dev"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "PersistentVolumeClaim",
+    "metadata": {
+      "annotations": {
+        "helm.sh/resource-policy": "keep"
+      },
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-data",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "accessModes": [
+        "ReadWriteOnce"
+      ],
+      "resources": {
+        "requests": {
+          "storage": "1Gi"
+        }
+      }
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-api",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "ports": [
+        {
+          "name": "http",
+          "port": 8000,
+          "targetPort": 8000
+        }
+      ],
+      "selector": {
+        "app.kubernetes.io/name": "atlas-api"
+      },
+      "type": "ClusterIP"
+    }
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-web",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "ports": [
+        {
+          "name": "http",
+          "port": 3000,
+          "targetPort": 3000
+        }
+      ],
+      "selector": {
+        "app.kubernetes.io/name": "atlas-web"
+      },
+      "type": "ClusterIP"
+    }
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-api",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app.kubernetes.io/name": "atlas-api"
+        }
+      },
+      "strategy": {
+        "type": "Recreate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/managed-by": "atlas",
+            "app.kubernetes.io/name": "atlas-api",
+            "atlas.dev/tenant": "northstar"
+          }
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "ATLAS_DEV_TOKEN",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "dev-token",
+                      "name": "atlas-operator"
+                    }
+                  }
+                },
+                {
+                  "name": "ATLAS_DATABASE_URL",
+                  "value": "sqlite:////var/lib/atlas/atlas.db"
+                },
+                {
+                  "name": "ATLAS_REPOSITORY_ROOT",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "ATLAS_DEPLOYMENT_REVIEW_ENABLED",
+                  "value": "true"
+                },
+                {
+                  "name": "ATLAS_STREAMING_STORE",
+                  "value": "/var/lib/atlas/streaming.db"
+                }
+              ],
+              "image": "atlas-api:local",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8000
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "1000m",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "250m",
+                  "memory": "512Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 60,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                },
+                {
+                  "mountPath": "/var/lib/atlas",
+                  "name": "data"
+                }
+              ]
+            }
+          ],
+          "securityContext": {
+            "fsGroup": 10001,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccountName": "atlas-runtime",
+          "volumes": [
+            {
+              "emptyDir": {
+                "sizeLimit": "64Mi"
+              },
+              "name": "tmp"
+            },
+            {
+              "name": "data",
+              "persistentVolumeClaim": {
+                "claimName": "atlas-data"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app.kubernetes.io/managed-by": "atlas",
+        "atlas.dev/tenant": "northstar"
+      },
+      "name": "atlas-web",
+      "namespace": "atlas-dev"
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app.kubernetes.io/name": "atlas-web"
+        }
+      },
+      "strategy": {
+        "type": "Recreate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/managed-by": "atlas",
+            "app.kubernetes.io/name": "atlas-web",
+            "atlas.dev/tenant": "northstar"
+          }
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "ATLAS_DEV_TOKEN",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "dev-token",
+                      "name": "atlas-operator"
+                    }
+                  }
+                },
+                {
+                  "name": "ATLAS_API_URL",
+                  "value": "http://atlas-api:8000"
+                },
+                {
+                  "name": "HOSTNAME",
+                  "value": "0.0.0.0"
+                },
+                {
+                  "name": "PORT",
+                  "value": "3000"
+                },
+                {
+                  "name": "ATLAS_ALLOWED_ORIGINS",
+                  "value": "http://localhost:3000"
+                }
+              ],
+              "image": "atlas-web:local",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/",
+                  "port": 3000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "name": "web",
+              "ports": [
+                {
+                  "containerPort": 3000
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/",
+                  "port": 3000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "1000m",
+                  "memory": "512Mi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 60,
+                "httpGet": {
+                  "path": "/",
+                  "port": 3000
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 2
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                },
+                {
+                  "mountPath": "/app/apps/web/.next/cache",
+                  "name": "cache"
+                }
+              ]
+            }
+          ],
+          "securityContext": {
+            "fsGroup": 10001,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccountName": "atlas-runtime",
+          "volumes": [
+            {
+              "emptyDir": {
+                "sizeLimit": "64Mi"
+              },
+              "name": "tmp"
+            },
+            {
+              "emptyDir": {
+                "sizeLimit": "64Mi"
+              },
+              "name": "cache"
+            }
+          ]
+        }
+      }
+    }
+  }
+]

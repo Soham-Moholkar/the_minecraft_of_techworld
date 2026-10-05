@@ -1,0 +1,30 @@
+schema_version: 1
+products:
+  - {id: local-infrastructure-plan, status: active, locations: [infra/terraform/local-budget, scripts/verify_infrastructure_plan.py, apps/api-python/src/atlas_api/infrastructure_plan_routes.py, apps/web/src/components/infrastructure-plan-workspace.tsx]}
+  - {id: deployment-review, status: active, locations: [infra/helm/atlas, infra/kubernetes, scripts/verify_deployment.py, apps/api-python/src/atlas_api/deployment_routes.py, apps/web/src/components/deployment-workspace.tsx]}
+  - {id: usage-pipeline-canvas, status: active, locations: [apps/web/src/components/usage-pipeline-canvas.tsx, apps/web/src/components/usage-pipeline-canvas.test.tsx]}
+  - {id: usage-bi, status: active, locations: [scripts/publish_usage_bi.py, apps/api-python/src/atlas_api/superset_status.py, apps/web/src/components/usage-bi-workspace.tsx]}
+  - {id: usage-flink-observations, status: active, locations: [infra/flink/usage_job.py, apps/api-python/src/atlas_api/flink_status.py, apps/web/src/components/usage-flink-workspace.tsx]}
+  - {id: usage-compute, status: active, locations: [infra/spark/usage_job.py, apps/api-python/src/atlas_api/usage_compute.py, apps/web/src/components/usage-compute-workspace.tsx]}
+  - {id: usage-orchestration, status: active, locations: [infra/airflow/dags, apps/api-python/src/atlas_api/airflow_status.py, apps/web/src/app/pipelines]}
+  - {id: agent-security-boundaries, status: active, locations: [labs/security/agent-boundaries]}
+  - { id: usage-streaming, status: active, locations: [apps/web/src/app/streaming, apps/web/src/components/streaming-workspace.tsx, apps/api-python/src/atlas_api/streaming_routes.py] }
+  - { id: usage-lakehouse, status: active, locations: [apps/api-python/src/atlas_api/usage_lakehouse.py, apps/api-python/src/atlas_api/streaming_export.py, apps/web/src/components/streaming-workspace.tsx] }
+  - { id: durable-event-pipeline, status: active, locations: [labs/data-engineering/event-pipeline, apps/web/src/data/learning.ts] }
+  - { id: operator-agent-memory, status: active, locations: [apps/web/src/components/agent-memory-workspace.tsx, apps/web/src/app/api/ai/repository/memory, apps/api-python/src/atlas_api/agent_memory.py, apps/api-python/src/atlas_api/agent_memory_routes.py] }
+  - { id: repository-mcp-explorer, status: active, locations: [apps/web/src/components/repository-mcp-explorer.tsx, apps/web/src/app/api/ai/repository/mcp/catalog, apps/api-python/src/atlas_api/agent_mcp.py] }
+  - { id: control-plane, status: active, locations: [apps/web, apps/api-python] }
+  - { id: data-estate, status: active, locations: [apps/web/src/app/data, apps/web/src/app/datasets, apps/api-python/src/atlas_api/dataset_routes.py] }
+  - { id: model-experiments, status: active, locations: [apps/web/src/app/models, apps/api-python/src/atlas_api/ml_routes.py] }
+  - { id: neural-comparison, status: active, locations: [apps/web/src/app/models, apps/api-python/src/atlas_api/neural_training.py, apps/api-python/src/atlas_api/tensorflow_training.py] }
+  - { id: applied-ai-suite, status: active, locations: [apps/web/src/components/applied-ai-workspace.tsx, apps/api-python/src/atlas_api/applied_routes.py, labs/deep-learning/applied-ai] }
+  - { id: ai-workbench, status: active, locations: [apps/web/src/app/ai/repository, apps/api-python/src/atlas_api/ai_routes.py] }
+  - { id: repository-code-intelligence, status: active, locations: [apps/web/src/components/repository-ai-workspace.tsx, apps/web/src/app/api/ai/repository/stream, apps/api-python/src/atlas_api/repository_ai.py, apps/api-python/src/atlas_api/ai_routes.py] }
+  - { id: ai-prompt-registry, status: active, locations: [apps/web/src/app/api/ai/repository/prompts, apps/api-python/src/atlas_api/ai_routes.py, apps/api-python/alembic/versions/20260921_0007_ai_prompt_versions.py] }
+  - { id: repository-retrieval, status: active, locations: [apps/web/src/app/api/ai/repository/retrieval, apps/web/src/components/repository-ai-workspace.tsx, apps/api-python/src/atlas_api/repository_retrieval.py, apps/api-python/alembic/versions/20260921_0008_ai_retrieval_evaluations.py] }
+  - { id: repository-ai-operations, status: active, locations: [apps/web/src/app/api/ai/repository/operations, apps/api-python/src/atlas_api/ai_operations.py, apps/api-python/alembic/versions/20260921_0009_ai_usage_budget.py] }
+  - { id: human-approved-repository-patches, status: active, locations: [apps/web/src/components/repository-patch-workspace.tsx, apps/web/src/app/api/ai/repository/patches, apps/api-python/src/atlas_api/agent_patches.py, apps/api-python/alembic/versions/20260923_0010_agent_patch_proposals.py] }
+  - { id: deterministic-agent-workflows, status: active, locations: [apps/web/src/app/api/ai/repository/workflows, apps/web/src/components/repository-patch-workspace.tsx, apps/api-python/src/atlas_api/agent_workflows.py, apps/api-python/alembic/versions/20260923_0011_agent_patch_workflows.py, apps/api-python/alembic/versions/20260923_0014_workflow_graph_version.py] }
+  - { id: isolated-agent-test-runs, status: active, locations: [apps/web/src/app/api/ai/repository/test-runs, apps/web/src/components/repository-patch-workspace.tsx, apps/api-python/src/atlas_api/agent_tests.py, apps/api-python/src/atlas_api/agent_test_worker.py, apps/api-python/alembic/versions/20260923_0012_agent_test_runs.py, apps/api-python/alembic/versions/20260923_0013_agent_test_retries.py] }
+  - { id: security-operations, status: foundation, locations: ["apps/web/src/app/[surface]", security] }
+

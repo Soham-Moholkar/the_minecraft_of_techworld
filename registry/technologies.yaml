@@ -1,0 +1,794 @@
+schema_version: 1
+last_updated: "2026-10-04"
+technologies:
+  - id: opentofu
+    name: OpenTofu local infrastructure plan
+    version: "1.13.0"
+    ecosystem: platform
+    domain: [devops, infrastructure]
+    category: [infrastructure-as-code, plan-review, resource-budgets]
+    status: first_class
+    maturity: active
+    integration: {kind: real_product, locations: [infra/terraform/local-budget, scripts/verify_infrastructure_plan.py, apps/api-python/src/atlas_api/infrastructure_plan.py, apps/web/src/components/infrastructure-plan-workspace.tsx], adapter: PlanEngine-native-opentofu}
+    alternatives: [terraform]
+    official: https://github.com/opentofu/opentofu/releases/tag/v1.13.0
+    last_verified: "2026-10-04"
+    verification: "Checksum-verified native create/no-op/budget-rejection/local-teardown and source-bound receipt; cloud providers unimplemented"
+    tests: [native-local-lifecycle, source-allowlist, plan-privacy, known-value-masks, source-lineage, owner-boundary]
+    progression: {max_defined_level: 8, max_implemented_level: 2, source: [infra/terraform/local-budget, scripts/verify_infrastructure_plan.py, apps/api-python/src/atlas_api/infrastructure_plan.py], evolution: docs/evolution/platform-deployment.md, work_items: [ATLAS-PLAT-P11]}
+  - id: helm
+    name: Helm
+    version: "4.3.0"
+    ecosystem: platform
+    domain: [devops, infrastructure]
+    category: [deployment-packaging]
+    status: first_class
+    maturity: active
+    integration: {kind: real_product, locations: [infra/helm/atlas, scripts/verify_deployment.py, apps/api-python/src/atlas_api/deployment_policy.py, apps/web/src/components/deployment-workspace.tsx], adapter: owned-development-manifest-review}
+    alternatives: [kustomize]
+    official: https://github.com/helm/helm/releases/tag/v4.3.0
+    last_verified: "2026-10-04"
+    verification: "Checksum-verified native Windows lint/template, schema/scope rejection and product policy; live cluster pending"
+    tests: [native-render, artifact-drift, security-policy, owner-boundary, component]
+    progression: {max_defined_level: 8, max_implemented_level: 2, source: [infra/helm/atlas, scripts/verify_deployment.py], evolution: docs/evolution/platform-deployment.md, work_items: [ATLAS-PLAT-P11]}
+  - id: kubernetes
+    name: Kubernetes development deployment
+    version: "v1 / apps-v1 / networking-v1 APIs; server version unverified"
+    ecosystem: platform
+    domain: [devops, infrastructure]
+    category: [container-orchestration, isolation, resource-budgets]
+    status: first_class
+    maturity: active
+    integration: {kind: real_product, locations: [infra/kubernetes, infra/helm/atlas, apps/api-python/src/atlas_api/deployment_policy.py], adapter: fixed-development-topology}
+    alternatives: [docker-compose]
+    official: https://kubernetes.io/docs/concepts/
+    last_verified: "2026-10-04"
+    verification: "Owned source policy and native Helm render; actual scheduling/CNI/storage/teardown unverified"
+    tests: [resource-contract, namespace, workload-security, budget, data-retention]
+    progression: {max_defined_level: 8, max_implemented_level: 1, source: [infra/kubernetes, infra/helm/atlas], evolution: docs/evolution/platform-deployment.md, work_items: [ATLAS-PLAT-P11]}
+  - id: superset
+    name: Apache Superset
+    version: "6.1.0"
+    ecosystem: python
+    domain: [data-engineering, analytics]
+    category: [business-intelligence]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [infra/superset, scripts/publish_usage_bi.py, apps/api-python/src/atlas_api/superset_status.py, apps/web/src/components/usage-bi-workspace.tsx], adapter: aggregate-projection-and-fixed-dashboard-observer}
+    alternatives: [native-usage-dashboard]
+    official: https://github.com/apache/superset/releases/tag/6.1.0
+    last_verified: "2026-10-04"
+    verification: "Actual SQLite aggregate/read-only enforcement and metadata/tenant/privacy contracts; Linux dashboard acceptance pending"
+    tests: [projection-roundtrip, read-only-dataset, tenant-isolation, credential-redaction, provider-bounds]
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [scripts/publish_usage_bi.py, apps/api-python/src/atlas_api/superset_status.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: flink
+    name: Apache Flink / PyFlink
+    version: "2.3.0"
+    ecosystem: python-jvm
+    domain: [data-engineering]
+    category: [stream-processing, checkpoint-observation, backpressure]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [infra/flink, apps/api-python/src/atlas_api/flink_status.py, apps/web/src/components/usage-flink-workspace.tsx], adapter: bounded-usage-job-and-fixed-rest-observations}
+    alternatives: [spark, kafka]
+    official: https://nightlies.apache.org/flink/flink-docs-release-2.3/
+    last_verified: "2026-10-04"
+    verification: "Read-only provider contracts; Linux image/job/checkpoint recovery acceptance pending"
+    tests: [provider-schema, fixed-identity, tenant-isolation, privacy, response-bounds]
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [infra/flink/usage_job.py, apps/api-python/src/atlas_api/flink_status.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: apache-beam-pyflink
+    name: Apache Beam PyFlink bridge
+    version: "2.61.0"
+    ecosystem: python
+    domain: [data-engineering]
+    category: [runtime-bridge]
+    status: supporting
+    maturity: active
+    integration: {kind: tooling, locations: [infra/flink/Dockerfile], adapter: isolated-pyflink-runtime}
+    alternatives: [java-flink-job]
+    official: https://beam.apache.org/
+    last_verified: "2026-10-04"
+    verification: "Required PyFlink range verified on PyPI; caps Arrow <17; isolated from API/Spark; runtime pending"
+    tests: [container-acceptance-pending]
+  - id: pyarrow-flink
+    name: Arrow isolated PyFlink decoder
+    version: "16.1.0"
+    ecosystem: python
+    domain: [data-engineering]
+    category: [columnar-format]
+    status: supporting
+    maturity: active
+    integration: {kind: tooling, locations: [infra/flink/Dockerfile], adapter: beam-compatible-parquet-decoder}
+    alternatives: [pyarrow]
+    official: https://arrow.apache.org/
+    last_verified: "2026-10-04"
+    verification: "Beam <=2.61 requires Arrow <17; isolated authenticated fixed-schema input; Linux compatibility pending"
+    tests: [container-acceptance-pending]
+  - id: spark
+    name: Apache Spark / PySpark
+    version: "4.2.0"
+    ecosystem: python-jvm
+    domain: [data-engineering]
+    category: [batch-processing, distributed-compute, parquet]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [infra/spark, apps/api-python/src/atlas_api/usage_compute.py, apps/web/src/components/usage-compute-workspace.tsx], adapter: bounded-usage-rollup}
+    alternatives: [duckdb, flink]
+    official: https://spark.apache.org/docs/4.2.0/
+    last_verified: "2026-10-04"
+    verification: "Parquet/receipt/security contracts; actual JVM and standalone acceptance recorded in CHECKPOINT"
+    tests: [source-lineage, tenant-isolation, receipt-currency, local-jvm-acceptance]
+    progression: {max_defined_level: 7, max_implemented_level: 2, source: [infra/spark/usage_job.py, apps/api-python/src/atlas_api/usage_compute.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: temurin-jre
+    name: Eclipse Temurin test JRE
+    version: "21.0.12.1+1"
+    ecosystem: jvm
+    domain: [data-engineering]
+    category: [test-runtime]
+    status: supporting
+    maturity: active
+    integration: {kind: tooling, locations: [scripts/verify_usage_spark.py, docs/runbooks/usage-compute.md], adapter: optional-workspace-local-java}
+    alternatives: [operator-managed-jdk]
+    official: https://adoptium.net/installation/
+    last_verified: "2026-10-04"
+    verification: "Official archive SHA-256 verified; java -version passed; GPL-2.0 with Classpath Exception"
+    tests: [archive-checksum, runtime-version]
+  - id: kafka
+    name: Apache Kafka
+    version: "4.3.1"
+    ecosystem: apache
+    domain: [data-engineering, streaming]
+    category: [event-streaming, broker, consumer-lag]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [compose.yaml, apps/api-python/src/atlas_api/kafka_broker.py, apps/api-python/src/atlas_api/streaming_routes.py, apps/web/src/components/streaming-workspace.tsx], adapter: KafkaBroker}
+    alternatives: [sqlite-local, redis-streams]
+    tests: [offline-sdk-contract, validation, retention-gap]
+    official: https://kafka.apache.org/
+    last_verified: "2026-10-03"
+    verification: "SDK contracts and Compose config passed; live broker blocked by absent Docker engine"
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [apps/api-python/src/atlas_api/kafka_broker.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: confluent-kafka
+    name: Confluent Kafka Python client
+    version: "2.15.1"
+    ecosystem: python
+    domain: [data-engineering, streaming]
+    category: [broker-client]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [apps/api-python/src/atlas_api/kafka_broker.py, apps/api-python/pyproject.toml], adapter: KafkaBroker}
+    alternatives: [kafka-python, aiokafka]
+    tests: [offline-sdk-contract]
+    official: https://docs.confluent.io/kafka-clients/python/current/overview.html
+    last_verified: "2026-10-03"
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [apps/api-python/src/atlas_api/kafka_broker.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: pyarrow
+    name: Apache Arrow and Parquet
+    version: "25.0.1"
+    ecosystem: python
+    domain: [data-engineering, apache]
+    category: [columnar-format, export, lineage]
+    status: first_class
+    maturity: active
+    integration: {kind: real_product, locations: [apps/api-python/src/atlas_api/streaming_export.py, apps/api-python/src/atlas_api/usage_lakehouse.py, apps/web/src/app/api/streaming/usage/export], adapter: export_parquet}
+    alternatives: [polars, duckdb]
+    tests: [roundtrip, empty-schema, tenant-isolation, api]
+    official: https://arrow.apache.org/docs/python/parquet.html
+    last_verified: "2026-10-03"
+    progression: {max_defined_level: 7, max_implemented_level: 2, source: [apps/api-python/src/atlas_api/streaming_export.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: pyiceberg
+    name: Apache Iceberg Python local catalog
+    version: "0.12.0"
+    ecosystem: python
+    domain: [data-engineering, apache]
+    category: [lakehouse-table-format, snapshot-history]
+    status: first_class
+    maturity: active
+    integration: {kind: real_product, locations: [apps/api-python/src/atlas_api/usage_lakehouse.py, apps/api-python/src/atlas_api/streaming_routes.py, apps/web/src/app/api/streaming/usage/lakehouse], adapter: refresh_lakehouse}
+    alternatives: [delta-lake, hudi]
+    tests: [snapshot-history, replay, tenant-isolation, api]
+    official: https://py.iceberg.apache.org/
+    last_verified: "2026-10-03"
+    progression: {max_defined_level: 7, max_implemented_level: 2, source: [apps/api-python/src/atlas_api/usage_lakehouse.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: durable-event-pipeline
+    name: ATLAS local durable usage pipeline
+    version: atlas-v1
+    ecosystem: python
+    domain: [data-engineering, streaming]
+    category: [event-ingestion, checkpoint, consumer-lag, data-quality]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [labs/data-engineering/event-pipeline, apps/web/src/data/learning.ts], adapter: sqlite-local }
+    alternatives: [kafka-provider, redis-streams-provider]
+    tests: [unit, recovery, tenant-isolation, validation, replay]
+    official: null
+    last_verified: "2026-10-03"
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source: [labs/data-engineering/event-pipeline/pipeline.py, apps/api-python/src/atlas_api/streaming.py, apps/api-python/src/atlas_api/streaming_routes.py, apps/web/src/components/streaming-workspace.tsx]
+      evolution: docs/evolution/data-engineering.md
+      work_items: [ATLAS-DATA-P10]
+  - {"id": "operator-agent-memory", "name": "ATLAS operator-managed agent memory", "version": "atlas-v1", "ecosystem": "python", "domain": ["agentic-ai", "developer-platform", "privacy"], "category": ["memory-state", "retention", "tenant-isolation", "audit"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/agent_memory.py", "apps/api-python/src/atlas_api/agent_memory_routes.py", "apps/web/src/components/agent-memory-workspace.tsx", "apps/api-python/alembic/versions/20261001_0015_agent_memory.py"], "adapter": "operator-only relational memory"}, "alternatives": ["explicit-context-memory-provider", "encrypted-memory-store"], "tests": ["unit", "integration", "security", "privacy", "contract", "migration"], "official": null, "last_verified": "2026-10-01", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/agent_memory.py", "apps/api-python/src/atlas_api/agent_memory_routes.py", "apps/web/src/components/agent-memory-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P09"]}}
+  - {"id": "repository-mcp-explorer", "name": "ATLAS local MCP contract explorer", "version": "atlas-v1 / MCP schema 2026-07-28", "ecosystem": "python", "domain": ["agentic-ai", "developer-platform", "security"], "category": ["tool-discovery", "json-schema", "permissions"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/agent_mcp.py", "apps/web/src/app/api/ai/repository/mcp/catalog", "apps/web/src/components/repository-mcp-explorer.tsx"], "adapter": "catalog-only; not an MCP transport"}, "alternatives": ["mcp-sdk-discovery-adapter"], "tests": ["unit", "integration", "security", "contract"], "official": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools", "last_verified": "2026-10-01", "progression": {"max_defined_level": 7, "max_implemented_level": 2, "source": ["apps/api-python/src/atlas_api/agent_mcp.py", "apps/web/src/components/repository-mcp-explorer.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P09"]}}
+  - id: nextjs
+    name: Next.js
+    version: 16.3.3
+    ecosystem: node-typescript
+    domain: [frontend, developer-platform]
+    category: [web, build, deployment]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [apps/web], adapter: null }
+    alternatives: [react-router, tanstack-router]
+    capabilities: [app-router, server-components, route-handlers, streaming-proxy, static-generation, security-headers, responsive-shell, command-palette]
+    tests: [unit, build, typecheck, browser-smoke]
+    official: https://nextjs.org/docs
+    last_verified: "2026-08-27"
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source: [apps/web/src/app, apps/web/src/components]
+      work_items: [ATLAS-WEB-P03]
+  - id: react
+    name: React
+    version: 19.2.8
+    ecosystem: node-typescript
+    domain: [frontend]
+    category: [web]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [apps/web], adapter: null }
+    alternatives: [vue, svelte, angular]
+    capabilities: [components, client-state, typed-forms, optimistic-mutations, eventsource, persisted-learning-state, accessibility]
+    tests: [unit, browser-smoke, accessibility-baseline]
+    official: https://react.dev/
+    last_verified: "2026-08-27"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/web/src/components], work_items: [ATLAS-WEB-P03] }
+  - id: python
+    name: Python
+    version: "3.12.6"
+    ecosystem: python
+    domain: [backend, learning, data-science]
+    category: [language, runtime]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-python, labs/python/python-mastery], adapter: null }
+    alternatives: [go, node-typescript, rust]
+    capabilities: [typing, oop, protocols, generators, decorators, async, threads, processes, failure-isolation, property-style-testing, memory-profiling, packaging, testing, profiling, benchmarking]
+    tests: [unit, property-style, integration, lab-lifecycle, package-execution, benchmark]
+    official: https://docs.python.org/3.12/
+    last_verified: "2026-08-27"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [labs/python/python-mastery], work_items: [ATLAS-PY-P02] }
+  - id: fastapi
+    name: FastAPI
+    version: 0.141.1
+    ecosystem: python
+    domain: [backend, developer-platform]
+    category: [web, rest-api, validation]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-python], adapter: null }
+    alternatives: [django, flask, litestar]
+    capabilities: [openapi, dependency-injection, validation, middleware, server-sent-events, resumable-event-cursors, allowlisted-query-plans, read-only-concurrency-profile, aggregate-lock-activity]
+    tests: [unit, integration, security]
+    official: https://fastapi.tiangolo.com/
+    last_verified: "2026-08-28"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/api-python/src/atlas_api], work_items: [ATLAS-API-P03] }
+  - id: sqlalchemy
+    name: SQLAlchemy
+    version: 2.0.52
+    ecosystem: python
+    domain: [backend, database]
+    category: [orm, low-level-data-access]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-python/src/atlas_api], adapter: ProjectRepository }
+    alternatives: [django-orm, sqlmodel, psycopg]
+    capabilities: [orm, transactions, pooling, typed-models, bound-read-only-sql, dialect-aware-explain, privacy-bounded-lock-introspection]
+    tests: [integration, migration, query-plan-contract, lock-activity-contract]
+    official: https://docs.sqlalchemy.org/
+    last_verified: "2026-08-28"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/api-python/src/atlas_api/database.py, apps/api-python/src/atlas_api/repository.py, apps/api-python/src/atlas_api/query_plans.py, apps/api-python/src/atlas_api/concurrency_profiles.py, apps/api-python/src/atlas_api/lock_activity.py], work_items: [ATLAS-DB-P03, ATLAS-DB-P04, ATLAS-DB-P04-ISOLATION, ATLAS-DB-P04-CONCURRENCY] }
+  - id: postgresql
+    name: PostgreSQL
+    version: "18.0"
+    ecosystem: database
+    domain: [database, platform]
+    category: [relational-database]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [compose.yaml, apps/api-python/alembic, apps/api-python/src/atlas_api/lock_activity.py, labs/databases/postgresql-concurrency], adapter: SQLAlchemy }
+    alternatives: [sqlite, mysql]
+    capabilities: [transactions, indexes, migrations, health-check, explain-json, normalized-query-plans, isolation-introspection, mvcc-semantics, aggregate-lock-activity, row-lock-timeout, deadlock-detection, serializable-retry]
+    tests: [migration, integration, live-query-plan, live-isolation-profile, lock-activity-contract, concurrency-lab-lifecycle]
+    official: https://www.postgresql.org/docs/
+    last_verified: "2026-08-28"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/api-python/alembic, apps/api-python/src/atlas_api/query_plans.py, apps/api-python/src/atlas_api/concurrency_profiles.py, apps/api-python/src/atlas_api/lock_activity.py, labs/databases/postgresql-concurrency], work_items: [ATLAS-DB-P03, ATLAS-DB-P04, ATLAS-DB-P04-ISOLATION, ATLAS-DB-P04-CONCURRENCY] }
+  - id: sqlite
+    name: SQLite
+    version: runtime-provided
+    ecosystem: database
+    domain: [database, testing]
+    category: [relational-database]
+    status: alternative
+    maturity: active
+    integration: { kind: provider_adapter, locations: [apps/api-python/src/atlas_api/database.py, labs/databases/query-plans], adapter: SQLAlchemy }
+    alternatives: [postgresql]
+    capabilities: [zero-service-local, isolated-tests, explain-query-plan, composite-index-benchmark, resettable-lab, wal-reader-snapshots, writer-lock-contention, busy-timeout]
+    tests: [unit, integration, query-plan, benchmark, transaction-isolation, lock-contention, lab-lifecycle]
+    official: https://sqlite.org/docs.html
+    last_verified: "2026-08-28"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/api-python/src/atlas_api/database.py, labs/databases/query-plans, labs/databases/isolation-locks], work_items: [ATLAS-DB-P04, ATLAS-DB-P04-ISOLATION] }
+  - id: mariadb
+    name: MariaDB
+    version: "12.3.2"
+    ecosystem: database
+    domain: [database, platform]
+    category: [relational-database]
+    status: alternative
+    maturity: active
+    integration: { kind: provider_adapter, locations: [compose.yaml, apps/api-python/src/atlas_api/provider_comparison.py, apps/api-python/src/atlas_api/query_plans.py, apps/api-python/src/atlas_api/concurrency_profiles.py, labs/databases/mariadb-provider], adapter: SQLAlchemy-PyMySQL }
+    alternatives: [postgresql, mysql, sqlite]
+    capabilities: [innodb, explain-json, normalized-query-plans, isolation-introspection, repeatable-read-snapshots, composite-index, row-lock-wait, transaction-retry, least-privileged-observer]
+    tests: [api-contract, plan-normalization, web-component, index-lab, transaction-isolation, lock-recovery, lab-lifecycle]
+    official: https://mariadb.org/
+    last_verified: "2026-09-01"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [compose.yaml, apps/api-python/src/atlas_api/provider_comparison.py, labs/databases/mariadb-provider], work_items: [ATLAS-DB-P04-MARIADB] }
+  - id: mongodb
+    name: MongoDB
+    version: "8.0.29"
+    ecosystem: database
+    domain: [database, platform]
+    category: [document-database]
+    status: alternative
+    maturity: active
+    integration: { kind: derived_read_model, locations: [compose.yaml, infra/mongodb/init, apps/api-python/src/atlas_api/document_projection.py, apps/web/src/components/document-projection-viewer.tsx, labs/databases/mongodb-document-model], adapter: PyMongo }
+    alternatives: [postgresql-jsonb, couchbase]
+    capabilities: [document-model, json-schema-validation, compound-index, generation-switch, bounded-tenant-projection, atomic-versioned-update, resettable-lab, sspl-license-review-required]
+    tests: [api-contract, tenant-boundary, response-allowlist, web-component, index-lab, schema-validation, atomic-update, lab-lifecycle]
+    official: https://www.mongodb.com/docs/manual/
+    last_verified: "2026-09-01"
+    progression: { max_defined_level: 7, max_implemented_level: 3, source: [apps/api-python/src/atlas_api/document_projection.py, apps/web/src/components/document-projection-viewer.tsx, labs/databases/mongodb-document-model], work_items: [ATLAS-DB-P04-MONGODB] }
+  - id: pymongo
+    name: PyMongo
+    version: "4.17.0"
+    ecosystem: python
+    domain: [backend, database]
+    category: [database-driver]
+    status: first_class
+    maturity: active
+    integration: { kind: provider_adapter, locations: [apps/api-python/src/atlas_api/document_projection.py, labs/databases/mongodb-document-model], adapter: MongoProjectProjectionRepository }
+    alternatives: [motor]
+    capabilities: [stable-api-v1, bounded-timeouts, bulk-replace, atomic-update, typed-driver]
+    tests: [unit, api-contract, live-lab]
+    official: https://pymongo.readthedocs.io/
+    last_verified: "2026-09-01"
+  - id: alembic
+    name: Alembic
+    version: 1.19.1
+    ecosystem: python
+    domain: [database]
+    category: [migrations]
+    status: core
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-python/alembic], adapter: null }
+    alternatives: [django-migrations]
+    capabilities: [upgrade, downgrade, schema-history]
+    tests: [migration]
+    official: https://alembic.sqlalchemy.org/
+    last_verified: "2026-08-27"
+  - id: prometheus-client-python
+    name: Prometheus Python client
+    version: 0.24.1
+    ecosystem: python
+    domain: [observability]
+    category: [metrics]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-python/src/atlas_api/main.py], adapter: null }
+    alternatives: [opentelemetry-metrics]
+    capabilities: [counters, histograms, exposition]
+    tests: [integration]
+    official: https://prometheus.github.io/client_python/
+    last_verified: "2026-08-27"
+  - id: docker-compose
+    name: Docker Compose
+    version: "5.0.2"
+    ecosystem: cloud-native
+    domain: [platform, developer-experience]
+    category: [deployment]
+    status: core
+    maturity: active
+    integration: { kind: infrastructure, locations: [compose.yaml], adapter: null }
+    alternatives: [kubernetes]
+    capabilities: [core-profile, health-checks, networks, volumes]
+    tests: [smoke]
+    official: https://docs.docker.com/compose/
+    last_verified: "2026-08-27"
+    progression: { max_defined_level: 7, max_implemented_level: 2, source: [compose.yaml, apps/api-python/Dockerfile, apps/web/Dockerfile], work_items: [ATLAS-PLAT-P03] }
+  - id: nodejs
+    name: Node.js
+    version: "22.20.0"
+    ecosystem: node-typescript
+    domain: [backend, developer-platform]
+    category: [runtime, web, api]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-node], adapter: ProjectProvider }
+    alternatives: [python-fastapi, go, java-spring]
+    capabilities: [native-http, rest, graphql, grpc, upstream-provider, structured-logging]
+    tests: [typecheck, unit, contract, container-smoke]
+    official: https://nodejs.org/docs/latest-v22.x/api/
+    last_verified: "2026-08-27"
+    progression: { max_defined_level: 7, max_implemented_level: 2, source: [apps/api-node], work_items: [ATLAS-FS-P03] }
+  - id: graphql-js
+    name: GraphQL.js
+    version: 17.0.2
+    ecosystem: node-typescript
+    domain: [backend, developer-platform]
+    category: [graphql, api-contract]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-node/src/protocols.ts], adapter: ProjectProvider }
+    alternatives: [rest, grpc]
+    capabilities: [schema, query-execution, variables, shared-provider]
+    tests: [contract, live-smoke]
+    official: https://graphql.org/graphql-js/
+    last_verified: "2026-08-27"
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [apps/api-node/src/protocols.ts], work_items: [ATLAS-WEB-P03]}
+  - id: grpc-js
+    name: gRPC for Node.js
+    version: 1.14.4
+    ecosystem: node-typescript
+    domain: [backend, developer-platform]
+    category: [grpc, rpc, api-contract]
+    status: first_class
+    maturity: active
+    integration: { kind: real_product, locations: [apps/api-node/contracts, apps/api-node/src/server.ts], adapter: ProjectProvider }
+    alternatives: [rest, graphql]
+    capabilities: [protobuf, unary-rpc, metadata-auth, shared-provider]
+    tests: [contract, live-wire-smoke]
+    official: https://grpc.io/docs/languages/node/
+    last_verified: "2026-08-27"
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [apps/api-node/src/server.ts, apps/api-node/contracts], work_items: [ATLAS-WEB-P03]}
+  - id: redis
+    name: Redis
+    version: 8.10.1
+    ecosystem: database
+    domain:
+    - database
+    category:
+    - cache
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/cache_profile.py
+      - labs/databases/redis-cache-streams
+      adapter: RedisProjectCacheRepository
+    alternatives:
+    - in-process-cache
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://redis.io/docs/latest/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source:
+      - apps/api-python/src/atlas_api/cache_profile.py
+      - labs/databases/redis-cache-streams
+      evolution: docs/adr/0005-dataset-profiling-and-generation-retention.md
+      work_items:
+      - ATLAS-DB-P04-COMPLETION
+  - id: redis-py
+    name: redis-py
+    version: 8.1.0
+    ecosystem: python
+    domain:
+    - database
+    category:
+    - database-driver
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/cache_profile.py
+      - labs/databases/redis-cache-streams
+      adapter: RedisProjectCacheRepository
+    alternatives:
+    - in-process-cache
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://redis.readthedocs.io/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 2
+      source:
+      - apps/api-python/src/atlas_api/cache_profile.py
+      - labs/databases/redis-cache-streams
+      evolution: docs/adr/0005-dataset-profiling-and-generation-retention.md
+      work_items:
+      - ATLAS-DB-P04-COMPLETION
+  - id: numpy
+    name: numpy
+    version: 2.5.3
+    ecosystem: python
+    domain:
+    - data-science
+    - analytics
+    category:
+    - data-science
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      adapter: profile_csv
+    alternatives:
+    - spark
+    - dask
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://numpy.org/doc/stable/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 2
+      source:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      evolution: docs/evolution/data-science.md
+      work_items:
+      - ATLAS-DATA-P05
+  - id: pandas
+    name: pandas
+    version: 3.0.5
+    ecosystem: python
+    domain:
+    - data-science
+    - analytics
+    category:
+    - data-science
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      adapter: profile_csv
+    alternatives:
+    - spark
+    - dask
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://pandas.pydata.org/docs/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      evolution: docs/evolution/data-science.md
+      work_items:
+      - ATLAS-DATA-P05
+  - id: polars
+    name: polars
+    version: 1.44.2
+    ecosystem: python
+    domain:
+    - data-science
+    - analytics
+    category:
+    - data-science
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      adapter: profile_csv
+    alternatives:
+    - spark
+    - dask
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://docs.pola.rs/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      evolution: docs/evolution/data-science.md
+      work_items:
+      - ATLAS-DATA-P05
+  - id: scipy
+    name: scipy
+    version: 1.18.1
+    ecosystem: python
+    domain:
+    - data-science
+    - analytics
+    category:
+    - data-science
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      adapter: profile_csv
+    alternatives:
+    - spark
+    - dask
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://docs.scipy.org/doc/scipy/
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 2
+      source:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      evolution: docs/evolution/data-science.md
+      work_items:
+      - ATLAS-DATA-P05
+  - id: duckdb
+    name: duckdb
+    version: 1.5.5
+    ecosystem: python
+    domain:
+    - data-science
+    - analytics
+    category:
+    - data-science
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      adapter: profile_csv
+    alternatives:
+    - spark
+    - dask
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://duckdb.org/docs/stable/clients/python/overview
+    last_verified: '2026-09-14'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source:
+      - apps/api-python/src/atlas_api/data_science.py
+      - apps/api-python/src/atlas_api/dataset_routes.py
+      - labs/data/science-quality
+      evolution: docs/evolution/data-science.md
+      work_items:
+      - ATLAS-DATA-P05
+  - id: scikit-learn
+    name: scikit-learn
+    version: 1.9.1
+    ecosystem: python
+    domain:
+    - machine-learning
+    - analytics
+    category:
+    - machine-learning
+    - model-evaluation
+    status: first_class
+    maturity: active
+    integration:
+      kind: real_product
+      locations:
+      - apps/api-python/src/atlas_api/machine_learning.py
+      - apps/api-python/src/atlas_api/ml_routes.py
+      - apps/web/src/app/models
+      - labs/ml/model-evaluation
+      adapter: train_experiment
+    alternatives:
+    - numpy-from-scratch
+    - pytorch
+    tests:
+    - unit
+    - integration
+    - security
+    - live-lab
+    official: https://scikit-learn.org/stable/
+    last_verified: '2026-09-16'
+    progression:
+      max_defined_level: 7
+      max_implemented_level: 3
+      source:
+      - apps/api-python/src/atlas_api/machine_learning.py
+      - apps/api-python/src/atlas_api/ml_routes.py
+      - apps/web/src/components/machine-learning-workspace.tsx
+      - labs/ml/model-evaluation
+      evolution: docs/evolution/machine-learning.md
+      work_items:
+      - ATLAS-ML-P06
+  - {"id": "pytorch", "name": "PyTorch", "version": "2.14.0+cpu", "ecosystem": "python", "domain": ["deep-learning"], "category": ["machine-learning", "model-evaluation"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py", "apps/web/src/components/machine-learning-workspace.tsx", "labs/deep-learning/framework-comparison"], "adapter": "train_neural_isolated"}, "alternatives": ["tensorflow", "jax"], "tests": ["unit", "integration", "security", "live-lab"], "official": "https://pytorch.org/get-started/locally/", "last_verified": "2026-09-16", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py"], "evolution": "docs/evolution/deep-learning.md", "work_items": ["ATLAS-DL-P07"]}}
+  - {"id": "tensorflow", "name": "TensorFlow CPU", "version": "2.21.0", "ecosystem": "python", "domain": ["deep-learning"], "category": ["machine-learning", "model-evaluation"], "status": "alternative", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py", "apps/web/src/components/machine-learning-workspace.tsx", "labs/deep-learning/framework-comparison"], "adapter": "train_neural_isolated"}, "alternatives": ["pytorch", "jax"], "tests": ["unit", "integration", "security", "live-lab"], "official": "https://www.tensorflow.org/install/pip", "last_verified": "2026-09-16", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py"], "evolution": "docs/evolution/deep-learning.md", "work_items": ["ATLAS-DL-P07"]}}
+  - {"id": "keras", "name": "Keras", "version": "3.15.1", "ecosystem": "python", "domain": ["deep-learning"], "category": ["machine-learning", "model-evaluation"], "status": "alternative", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py", "apps/web/src/components/machine-learning-workspace.tsx", "labs/deep-learning/framework-comparison"], "adapter": "train_neural_isolated"}, "alternatives": ["pytorch", "jax"], "tests": ["unit", "integration", "security", "live-lab"], "official": "https://keras.io/getting_started/", "last_verified": "2026-09-16", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/neural_training.py", "apps/api-python/src/atlas_api/tensorflow_training.py"], "evolution": "docs/evolution/deep-learning.md", "work_items": ["ATLAS-DL-P07"]}}
+  - {"id": "openai-responses", "name": "OpenAI Responses API", "version": "v1", "ecosystem": "python", "domain": ["ai-engineering"], "category": ["inference-provider", "structured-output", "code-intelligence", "streaming"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/repository_ai.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/app/ai/repository"], "adapter": "OpenAIResponsesProvider"}, "alternatives": ["openai-compatible-local", "hosted-provider-adapter"], "tests": ["unit", "integration", "security", "contract", "streaming"], "official": "https://developers.openai.com/api/reference/cli/resources/responses", "last_verified": "2026-09-21", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/repository_ai.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/components/repository-ai-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "gpt-5-6-luna", "name": "GPT-5.6 Luna", "version": "gpt-5.6-luna", "ecosystem": "openai", "domain": ["ai-engineering"], "category": ["economy-inference", "code-explanation"], "status": "first_class", "maturity": "active", "integration": {"kind": "provider_adapter", "locations": ["apps/api-python/src/atlas_api/repository_ai.py"], "adapter": "OpenAIResponsesProvider"}, "alternatives": ["gpt-5-6-terra"], "tests": ["contract", "security"], "official": "https://developers.openai.com/api/docs/models/gpt-5.6-luna", "last_verified": "2026-09-19", "progression": {"max_defined_level": 7, "max_implemented_level": 2, "source": ["apps/api-python/src/atlas_api/repository_ai.py"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "gpt-5-6-terra", "name": "GPT-5.6 Terra", "version": "gpt-5.6-terra", "ecosystem": "openai", "domain": ["ai-engineering"], "category": ["balanced-inference", "code-review"], "status": "first_class", "maturity": "active", "integration": {"kind": "provider_adapter", "locations": ["apps/api-python/src/atlas_api/repository_ai.py"], "adapter": "OpenAIResponsesProvider"}, "alternatives": ["gpt-5-6-luna"], "tests": ["contract", "security"], "official": "https://developers.openai.com/api/docs/models/compare", "last_verified": "2026-09-19", "progression": {"max_defined_level": 7, "max_implemented_level": 2, "source": ["apps/api-python/src/atlas_api/repository_ai.py"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "openai-compatible-local", "name": "Local OpenAI-compatible inference", "version": "operator-managed", "ecosystem": "python", "domain": ["ai-engineering"], "category": ["inference-provider", "structured-output", "streaming"], "status": "alternative", "maturity": "active", "integration": {"kind": "provider_adapter", "locations": ["apps/api-python/src/atlas_api/repository_ai.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/components/repository-ai-workspace.tsx"], "adapter": "LocalOpenAICompatibleProvider"}, "alternatives": ["openai-responses"], "tests": ["unit", "integration", "security", "contract", "streaming"], "official": "https://platform.openai.com/docs/api-reference/chat", "last_verified": "2026-09-21", "progression": {"max_defined_level": 7, "max_implemented_level": 3, "source": ["apps/api-python/src/atlas_api/repository_ai.py", "apps/web/src/components/repository-ai-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "repository-hybrid-retrieval", "name": "ATLAS repository hybrid retrieval", "version": "atlas-v1", "ecosystem": "python", "domain": ["ai-engineering", "developer-platform"], "category": ["retrieval", "embeddings", "reranking", "evaluation"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/repository_retrieval.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/components/repository-ai-workspace.tsx"], "adapter": "EmbeddingProvider"}, "alternatives": ["learned-local-embeddings", "hosted-embeddings", "vector-database"], "tests": ["unit", "integration", "security", "contract", "migration", "evaluation"], "official": null, "last_verified": "2026-09-21", "progression": {"max_defined_level": 7, "max_implemented_level": 4, "source": ["apps/api-python/src/atlas_api/repository_retrieval.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/app/api/ai/repository/retrieval", "apps/web/src/components/repository-ai-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "repository-ai-operations", "name": "ATLAS repository AI operations", "version": "atlas-v1", "ecosystem": "python", "domain": ["ai-engineering", "observability", "finops"], "category": ["budget-enforcement", "provider-failover", "slo", "cache"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/ai_operations.py", "apps/api-python/src/atlas_api/repository_ai.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/app/api/ai/repository/operations", "apps/web/src/components/repository-ai-workspace.tsx"], "adapter": "RoutedCodeIntelligenceProvider"}, "alternatives": ["external-ai-gateway", "distributed-vector-cache"], "tests": ["unit", "integration", "security", "contract", "migration", "observability"], "official": null, "last_verified": "2026-09-22", "progression": {"max_defined_level": 7, "max_implemented_level": 6, "source": ["apps/api-python/src/atlas_api/ai_operations.py", "apps/api-python/src/atlas_api/repository_ai.py", "apps/web/src/components/repository-ai-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P08"]}}
+  - {"id": "repository-patch-gateway", "name": "ATLAS human-approved repository patch gateway", "version": "atlas-v1", "ecosystem": "python", "domain": ["agentic-ai", "developer-platform", "security"], "category": ["tool-gateway", "human-approval", "filesystem", "audit"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/agent_patches.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/components/repository-patch-workspace.tsx"], "adapter": "PatchGateway"}, "alternatives": ["isolated-remote-worker", "git-worktree-agent"], "tests": ["unit", "integration", "security", "contract", "migration"], "official": null, "last_verified": "2026-09-23", "progression": {"max_defined_level": 7, "max_implemented_level": 4, "source": ["apps/api-python/src/atlas_api/agent_patches.py", "apps/web/src/app/api/ai/repository/patches", "apps/web/src/components/repository-patch-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P09"]}}
+  - {"id": "repository-agent-workflows", "name": "ATLAS deterministic repository agent workflows", "version": "atlas-v1", "ecosystem": "python", "domain": ["agentic-ai", "developer-platform"], "category": ["workflow-state-machine", "conditional-tool-graph", "human-in-the-loop", "replay", "tool-evidence", "audit"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/agent_workflows.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/api-python/src/atlas_api/agent_test_worker.py", "apps/web/src/app/api/ai/repository/workflows", "apps/web/src/components/repository-patch-workspace.tsx", "apps/api-python/alembic/versions/20260923_0014_workflow_graph_version.py"], "adapter": "PatchWorkflowMachine"}, "alternatives": ["langgraph-adapter", "durable-workflow-engine"], "tests": ["unit", "integration", "security", "contract", "migration", "recovery", "replay"], "official": null, "last_verified": "2026-09-23", "progression": {"max_defined_level": 7, "max_implemented_level": 4, "source": ["apps/api-python/src/atlas_api/agent_workflows.py", "apps/api-python/src/atlas_api/agent_test_worker.py", "apps/web/src/app/api/ai/repository/workflows", "apps/web/src/components/repository-patch-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P09"]}}
+  - {"id": "repository-isolated-test-worker", "name": "ATLAS isolated candidate test worker", "version": "atlas-v1", "ecosystem": "python", "domain": ["agentic-ai", "developer-platform", "security"], "category": ["sandbox", "human-approval", "durable-jobs", "audit"], "status": "first_class", "maturity": "active", "integration": {"kind": "real_product", "locations": ["apps/api-python/src/atlas_api/agent_tests.py", "apps/api-python/src/atlas_api/agent_test_worker.py", "apps/api-python/src/atlas_api/ai_routes.py", "apps/web/src/app/api/ai/repository/test-runs", "apps/web/src/components/repository-patch-workspace.tsx"], "adapter": "DockerTestRunner"}, "alternatives": ["microvm-worker", "remote-ephemeral-runner"], "tests": ["unit", "integration", "security", "contract", "migration"], "official": "https://docs.docker.com/engine/containers/run/", "last_verified": "2026-09-23", "progression": {"max_defined_level": 7, "max_implemented_level": 4, "source": ["apps/api-python/src/atlas_api/agent_tests.py", "apps/api-python/src/atlas_api/agent_test_worker.py", "apps/web/src/app/api/ai/repository/test-runs", "apps/web/src/components/repository-patch-workspace.tsx"], "evolution": "docs/evolution/ai-engineering.md", "work_items": ["ATLAS-AI-P09"]}}
+  - id: airflow
+    name: Apache Airflow
+    version: "3.3.2"
+    ecosystem: apache
+    domain: [data-engineering, orchestration]
+    category: [workflow, dag-status]
+    status: alternative
+    maturity: active
+    integration: {kind: real_product, locations: [infra/airflow/dags, apps/api-python/src/atlas_api/airflow_status.py, apps/web/src/components/usage-dag-workspace.tsx], adapter: fixed-usage-dag}
+    alternatives: [prefect, dagster]
+    official: https://airflow.apache.org/docs/apache-airflow/stable/
+    last_verified: "2026-10-03"
+    verification: "Native task-chain and status contracts; Linux DAG parse and live scheduler pending"
+    tests: [bounded-api-task-chain, status-contract, tenant-boundary, privacy]
+    progression: {max_defined_level: 7, max_implemented_level: 1, source: [infra/airflow/dags, apps/api-python/src/atlas_api/airflow_status.py], evolution: docs/evolution/data-engineering.md, work_items: [ATLAS-DATA-P10]}
+  - id: pyyaml
+    name: PyYAML
+    version: "6.0.3"
+    ecosystem: python
+    domain: [developer-platform]
+    category: [metadata-validation]
+    status: supporting
+    maturity: active
+    integration: {kind: tooling, locations: [scripts/audit_consistency.py], adapter: safe-load-only}
+    alternatives: [ruamel-yaml]
+    official: https://pyyaml.org/
+    last_verified: "2026-10-03"
+    verification: "Registry and progression consistency gate; MIT; no unsafe object loader"
+    tests: [metadata-consistency]

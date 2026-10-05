@@ -1,0 +1,26 @@
+node_modules/
+.next/
+coverage/
+.coverage
+dist/
+.turbo/
+.venv/
+.tools/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.py[cod]
+*.db
+.env
+.env.local
+!.env.example
+artifacts/
+playwright-report/
+test-results/
+.playwright-cli/
+.DS_Store
+# Local evidence/process logs and the accidental home-directory link are not source.
+/output/
+/~/
+*.tsbuildinfo

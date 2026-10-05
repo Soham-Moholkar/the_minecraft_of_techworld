@@ -1,0 +1,8 @@
+schema_version: 1
+ecosystem: go
+display_name: "Go"
+status: planned
+implemented_categories: []
+missing_categories: [runtime, web, orm, migrations, authn, rest-api, grpc, queues, testing, profiling, tracing, deployment]
+owners: [atlas-platform]
+last_reviewed: "2026-08-27"
