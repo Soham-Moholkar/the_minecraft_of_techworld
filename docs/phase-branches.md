@@ -49,3 +49,9 @@ The first command validates/reports selections. The second creates local branch
 commits using temporary Git indexes without checking out branches or editing the
 main working tree. It rejects existing branch names and never pushes or force
 updates refs. GitHub publication is a separate, user-authorized action.
+
+Published 2026-10-05 to `Soham-Moholkar/the_minecraft_of_techworld`: main and all
+16 branches were pushed atomically with the initial remote history preserved.
+All 17 remote commit hashes matched local refs. Six extraction regressions and
+all dependency/syntax checks passed; each of the 12 code trees additionally passed
+actual API import and OpenAPI registration in an isolated temporary directory.

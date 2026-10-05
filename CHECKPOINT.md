@@ -1,5 +1,27 @@
 # ATLAS checkpoint — 2026-10-05
 
+## GitHub publication — user authorized 2026-10-05
+
+Published to https://github.com/Soham-Moholkar/the_minecraft_of_techworld.git.
+Integrated source commit: 8c76cca9692437b232adcf57893348e68f165ac1. The existing
+remote initial commit 1cf471c is preserved; no force push or history replacement.
+Main and 16 named phase branches were pushed atomically and all remote object
+hashes matched their local refs. Branch names/status are in docs/phase-branches.md.
+Phases 0–11 are current source extractions with transitive local imports, colocated
+tests, shared bootstrap and scoped optional API router wiring. Each branch has a
+PHASE_SCOPE.json and branch README. Phases 12–15 are explicitly unimplemented
+roadmap reference trees. There were no historical local phase commits to recover.
+Source views are not historical releases; integrate changes file by file on main.
+
+Validation: six extraction regressions, import closure/Python syntax for all
+views, actual API import and OpenAPI registration for 12 code trees. Independent
+full frontend builds/runtime acceptance of the extracted views are unverified;
+their copied quality snapshots are reset to unrun. Main retains its real quality
+snapshot. Temporary validation directories were cleaned; current checkout is main.
+Generated logs, home link, databases, credentials, dependency/build folders and
+portable binaries are excluded from Git. No secrets were found in staged source;
+the private-key marker match is an intentional rejection fixture. Native runtime
+limitations and incomplete phase status below remain unchanged by publication.
 ## Current continuation — Phase 11 authoritative state
 
 User moved to Phase 11 and requested resuming from the last limit. Phase 11 is
@@ -20,7 +42,7 @@ policy now shares duplicate-key-safe JSON and web budget schema. Quality runner,
 CI native job, registry/progression metadata and curated API Docker image inputs
 include this slice. ADR 0017, local-infrastructure-plan runbook, threat model,
 provenance/platform-toolchain.md and ATLAS-PLAT-P11 record its boundary.
-No application migration, commit, push or deployment was performed.
+No application migration or deployment was performed in the Phase 11 slice. Subsequent user-authorized Git publication is recorded above.
 
 Native OpenTofu 1.13.0 is official checksum-verified portable Windows tooling under
 ignored .tools/opentofu-1.13.0, notices retained, no global PATH change. Whole-source
@@ -84,8 +106,8 @@ Current runtime check 2026-10-05: docker info still fails on missing
 //./pipe/dockerDesktopLinuxEngine. Approved wsl.exe --list --quiet lists only
 docker-desktop, not a supported general-purpose Ansible controller. Do not modify
 Docker's managed distribution, reset volumes or claim Linux acceptance. No public
-or paid infrastructure has been created. All application/registry source remains
-uncommitted in this repository's untracked baseline; do not invent a Git revision.
+or paid infrastructure has been created. The previously untracked source is now committed and published on main, with its
+original remote parent preserved; see the publication record above.
 
 Exact next acceptance: restore a supported Docker Linux engine, build owned API/web
 images and exercise an isolated kind cluster (admission, namespace/CNI isolation,

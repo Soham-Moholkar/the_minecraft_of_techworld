@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-05T18:01:43.4432523+05:30",
+  "updated_at": "2026-10-05T18:22:44.3337118+05:30",
   "current_phase": "Phase 11 in progress; Phases 9 and 10 unfinished",
   "last_completed_task": "Native OpenTofu plan review verified end to end; full platform profile, final build and browser lineage/failure/mobile acceptance passed; owned fixtures cleaned",
   "next_task": "Restore supported Docker Linux engine, build owned images and exercise isolated Kubernetes admission/CNI/quota/PVC recovery/retained teardown; remaining native scope includes persistent state governance and immutable releases",
@@ -107,5 +107,17 @@
   "blocker": "Prior Linux runtime acceptance remains pending; native Phase 11 development can proceed",
   "external_degradation": "2026-10-05: Docker Linux engine pipe absent; WSL lists only docker-desktop. Live Kubernetes/Kafka/Airflow/standalone Spark/Flink/Superset/database and Ansible controller acceptance unverified.",
   "security_boundary": "Independent owner/development offline deployment and plan observation; fixed allowlisted source, bounded redacted receipts; no HTTP tool/cluster/cloud execution or credentials",
-  "roadmap_baseline_scope": "Phases 0-8 retain historical implemented local baselines; current unavailable runtime gates and advanced scope are not certified."
+  "roadmap_baseline_scope": "Phases 0-8 retain historical implemented local baselines; current unavailable runtime gates and advanced scope are not certified.",
+  "git_publication": {
+    "repository": "https://github.com/Soham-Moholkar/the_minecraft_of_techworld",
+    "main_source_commit": "8c76cca9692437b232adcf57893348e68f165ac1",
+    "phase_branch_count": 16,
+    "status": "published",
+    "remote_refs_verified": 17,
+    "extraction_regressions": 6,
+    "isolated_api_imports": 12,
+    "historical_phase_snapshots": false,
+    "future_phases": "12-15 roadmap references only",
+    "force_push": false
+  }
 }
