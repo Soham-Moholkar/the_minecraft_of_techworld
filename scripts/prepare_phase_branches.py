@@ -113,7 +113,9 @@ def dependencies(path: str, raw: bytes, files: dict[str, tuple[str, str]]) -> se
     if path.endswith((".ts", ".tsx", ".js", ".mjs")):
         for specifier in re.findall(r"(?:from\s*|import\s*\(\s*|import\s*)[\"']([^\"']+)[\"']", text):
             # Next generates this declaration when building; .next is never source.
-            if path == "apps/web/next-env.d.ts" and specifier == "./.next/types/routes.d.ts":
+            if path == "apps/web/next-env.d.ts" and specifier in {
+                "./.next/types/routes.d.ts", "./.next/types/root-params.d.ts"
+            }:
                 continue
             if specifier.startswith("@/"):
                 base = WEB + specifier[2:]
