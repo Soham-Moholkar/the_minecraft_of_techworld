@@ -112,6 +112,9 @@ def dependencies(path: str, raw: bytes, files: dict[str, tuple[str, str]]) -> se
                 found.update(candidate for candidate in candidates if candidate in files)
     if path.endswith((".ts", ".tsx", ".js", ".mjs")):
         for specifier in re.findall(r"(?:from\s*|import\s*\(\s*|import\s*)[\"']([^\"']+)[\"']", text):
+            # Next generates this declaration when building; .next is never source.
+            if path == "apps/web/next-env.d.ts" and specifier == "./.next/types/routes.d.ts":
+                continue
             if specifier.startswith("@/"):
                 base = WEB + specifier[2:]
             elif specifier.startswith("."):
@@ -139,7 +142,19 @@ def prepare(source: str, create: bool) -> list[dict[str, object]]:
         if kind != "blob" or mode == "120000" or name.startswith(("~/", "output/")):
             raise ValueError("Unexpected non-source Git entry")
         files[name] = (mode, sha)
-    cache = {path: git("cat-file", "blob", value[1]) for path, value in files.items()}
+    # One binary-safe batch avoids hundreds of process launches on Windows.
+    batch = git("cat-file", "--batch", data="".join(v[1] + "\n" for v in files.values()).encode())
+    cache = {}
+    offset = 0
+    for path, (_, sha) in files.items():
+        end = batch.index(b"\n", offset)
+        header_sha, kind, size_text = batch[offset:end].decode().split()
+        size = int(size_text)
+        if header_sha != sha or kind != "blob" or size > 5_000_000:
+            raise ValueError("Unexpected source blob")
+        offset = end + 1
+        cache[path] = batch[offset:offset + size]
+        offset += size + 1
     common = {path for path in files if path in {
         ".gitignore", ".editorconfig", "AGENTS.md", "package.json", "pnpm-workspace.yaml",
         "pnpm-lock.yaml", "docs/phase-branches.md"} or path.startswith("atlas_codex_context_v4/")}
@@ -152,7 +167,10 @@ def prepare(source: str, create: bool) -> list[dict[str, object]]:
           and not path.endswith("Dockerfile"))}
     bootstrap |= {MAIN, API + "atlas_api/__init__.py", API + "atlas_api/py.typed",
                   "apps/api-python/tests/conftest.py", "apps/web/src/test/setup.ts",
-                  "apps/web/src/test/server-only.ts", ".env.example"}
+                  "apps/web/src/test/server-only.ts", ".env.example",
+                  WEB + "app/layout.tsx", WEB + "app/page.tsx", WEB + "app/globals.css",
+                  WEB + "app/api/health/route.ts", WEB + "app/api/projects/route.ts",
+                  WEB + "app/api/audit/route.ts", WEB + "app/api/session/route.ts"}
     output = []
     for number, (slug, title, status) in enumerate(PHASES):
         feature = {path for path in files if owner(path) == number}

@@ -102,7 +102,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="atlas-shell min-h-screen bg-[#071018] text-slate-100">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-cyan-300 focus:p-3 focus:text-slate-950">Skip to content</a>
-      {mobileOpen && <button aria-label="Close navigation overlay" className="fixed inset-0 z-20 bg-slate-950/70 lg:hidden" onClick={() => setMobileOpen(false)}/>} 
+      {mobileOpen && <button aria-label="Close navigation overlay" className="fixed inset-0 z-20 bg-slate-950/70 lg:hidden" onClick={() => setMobileOpen(false)}/>}
       <aside className={cn("atlas-sidebar fixed inset-y-0 left-0 z-30 flex w-[244px] flex-col border-r border-white/[.07] bg-[#08131d] transition-transform lg:visible lg:translate-x-0", mobileOpen ? "visible translate-x-0" : "invisible -translate-x-full")}>
         <div className="flex h-16 items-center gap-3 border-b border-white/[.07] px-5">
           <div className="grid size-8 place-items-center rounded-lg bg-cyan-300 text-slate-950 shadow-[0_0_24px_rgba(103,232,249,.25)]"><Hexagon size={18} strokeWidth={2.4}/></div>
