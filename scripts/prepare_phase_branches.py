@@ -125,6 +125,9 @@ def dependencies(path: str, raw: bytes, files: dict[str, tuple[str, str]]) -> se
                 continue
             candidates = [base, *[base + suffix for suffix in (".ts", ".tsx", ".json", ".js")],
                           base + "/index.ts", base + "/index.tsx"]
+            # NodeNext source imports .js names that compile from owned .ts files.
+            if base.endswith(".js"):
+                candidates.extend([base[:-3] + ".ts", base[:-3] + ".tsx"])
             resolved = [item for item in candidates if item in files]
             if not resolved:
                 raise ValueError(f"Unresolved local import: {path}: {specifier}")

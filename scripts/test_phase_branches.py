@@ -43,6 +43,11 @@ class PhaseSelectionTests(unittest.TestCase):
         self.assertEqual(dependencies("apps/web/next-env.d.ts",
                          b'import "./.next/types/routes.d.ts";', {}), set())
 
+    def test_nodenext_javascript_specifier_resolves_typescript_source(self):
+        files = {"apps/api-node/src/protocols.ts": ("100644", "fixture")}
+        self.assertEqual(dependencies("apps/api-node/src/server.ts",
+                         b'import { app } from "./protocols.js";', files), set(files))
+
 
 if __name__ == "__main__":
     unittest.main()
