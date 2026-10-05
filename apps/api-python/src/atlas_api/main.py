@@ -28,26 +28,17 @@ from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from atlas_api import __version__
-from atlas_api.agent_memory_routes import router as memory_router
-from atlas_api.ai_routes import router as ai_router
-from atlas_api.airflow_status import router as airflow_router
-from atlas_api.applied_routes import router as applied_router
 from atlas_api.auth import Principal, require_principal
 from atlas_api.cache_profile import RedisProjectCacheRepository
 from atlas_api.concurrency_profiles import ConcurrencyProfileRepository
 from atlas_api.config import Settings, get_settings
 from atlas_api.database import get_session
 from atlas_api.database_workbench import DatabaseWorkbenchRepository
-from atlas_api.dataset_routes import router as dataset_router
-from atlas_api.deployment_routes import router as deployment_router
 from atlas_api.document_projection import (
     DocumentProjectionUnavailable,
     MongoProjectProjectionRepository,
 )
-from atlas_api.flink_status import router as flink_router
-from atlas_api.infrastructure_plan_routes import router as infrastructure_plan_router
 from atlas_api.lock_activity import LockActivityRepository
-from atlas_api.ml_routes import router as ml_router
 from atlas_api.models import Organization
 from atlas_api.provider_comparison import ProviderComparisonRepository
 from atlas_api.query_plans import ProjectStatus, QueryName, QueryPlanRepository
@@ -75,9 +66,6 @@ from atlas_api.schemas import (
     RealtimeError,
     RealtimeTicketRead,
 )
-from atlas_api.streaming_routes import router as streaming_router
-from atlas_api.superset_status import router as superset_router
-from atlas_api.usage_compute import router as compute_router
 
 logger = structlog.get_logger()
 REQUESTS = Counter("atlas_http_requests_total", "HTTP requests", ["method", "route", "status"])
@@ -149,18 +137,6 @@ app = FastAPI(
     version=__version__,
     summary="Multi-tenant project and engineering operations API",
 )
-app.include_router(dataset_router)
-app.include_router(ml_router)
-app.include_router(applied_router)
-app.include_router(ai_router)
-app.include_router(memory_router)
-app.include_router(streaming_router)
-app.include_router(airflow_router)
-app.include_router(compute_router)
-app.include_router(flink_router)
-app.include_router(superset_router)
-app.include_router(deployment_router)
-app.include_router(infrastructure_plan_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=get_settings().origin_list,
