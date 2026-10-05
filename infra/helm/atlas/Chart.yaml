@@ -1,6 +1,0 @@
-apiVersion: v2
-name: atlas
-description: Owned local ATLAS core deployment; cluster acceptance pending
-type: application
-version: 0.1.0
-appVersion: "0.1.0"
