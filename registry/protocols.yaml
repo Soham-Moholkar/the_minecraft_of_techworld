@@ -1,9 +1,0 @@
-schema_version: 1
-protocols:
-  - { id: mcp-tool-discovery, status: reference, version: "2026-07-28", boundary: "catalog-only; no transport or invocation", locations: [apps/api-python/src/atlas_api/agent_mcp.py, apps/web/src/components/repository-mcp-explorer.tsx] }
-  - { id: http-rest, status: core, locations: [apps/api-python, apps/web/src/app/api] }
-  - { id: openapi, status: core, locations: [apps/api-python/src/atlas_api/main.py] }
-  - { id: prometheus-exposition, status: first_class, locations: [apps/api-python/src/atlas_api/main.py] }
-  - { id: graphql, status: first_class, locations: [apps/api-node/src/server.ts, apps/api-node/src/protocols.ts] }
-  - { id: grpc, status: first_class, locations: [apps/api-node/contracts/projects.proto, apps/api-node/src/server.ts] }
-  - { id: websocket, status: first_class, locations: [apps/api-python/src/atlas_api/main.py, apps/web/src/components/realtime-console.tsx] }

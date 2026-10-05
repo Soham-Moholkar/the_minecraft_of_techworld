@@ -1,8 +1,0 @@
-schema_version: 1
-ecosystem: java
-display_name: "Java"
-status: planned
-implemented_categories: []
-missing_categories: [runtime, web, orm, migrations, authn, rest-api, graphql, grpc, queues, cache, testing, metrics, tracing, deployment]
-owners: [atlas-platform]
-last_reviewed: "2026-08-27"
