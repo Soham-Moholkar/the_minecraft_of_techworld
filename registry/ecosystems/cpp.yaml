@@ -1,8 +1,0 @@
-schema_version: 1
-ecosystem: cpp
-display_name: "C / C++"
-status: planned
-implemented_categories: []
-missing_categories: [runtime, build, networking, grpc, testing, fuzz, profiling, security, deployment]
-owners: [atlas-platform]
-last_reviewed: "2026-08-27"
